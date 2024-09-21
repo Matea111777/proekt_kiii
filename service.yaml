@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nba-boot-app-service
+  namespace: nba-app
+spec:
+  type: NodePort
+  selector:
+    app: nba-boot-app
+  ports:
+    - port: 80           
+      targetPort: 8080   
+      nodePort: 30080    
+      protocol: TCP
