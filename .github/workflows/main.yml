@@ -30,14 +30,11 @@ jobs:
       - name: Package Application
         run: mvn package
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-artifact
-          path: target/*.jar
+      # Replace this section with a different step or leave it empty
+      - name: Notify on Build Completion
+        run: |
+          echo "Build and tests completed successfully!"
 
-      - name: Generate Changelog
-        run: npx conventional-changelog -p angular -i CHANGELOG.md -s
   notify-slack:
     needs: build
     runs-on: ubuntu-latest
@@ -48,5 +45,6 @@ jobs:
           status: ${{ job.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
 
 
