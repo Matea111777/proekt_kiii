@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  namespace: nba-app
+spec:
+  capacity:
+    storage: 10Gi  # Adjust size as needed
+  accessModes:
+    - ReadWriteOnce
+  hostPath:  # This is for local storage; adjust if using a cloud provider
+    path: /mnt/data/postgres
