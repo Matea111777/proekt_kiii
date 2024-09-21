@@ -21,8 +21,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      - name: Run SpotBugs Analysis
-        run: mvn spotbugs:check
+      - name: Run PMD Analysis
+        run: mvn pmd:pmd
 
       - name: Package Application
         run: mvn package
@@ -41,6 +41,4 @@ jobs:
           status: ${{ job.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-
-
 
