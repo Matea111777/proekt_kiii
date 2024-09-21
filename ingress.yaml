@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nba-boot-app-ingress
+  namespace: nba-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /players
+        pathType: Prefix
+        backend:
+          service:
+            name: nba-boot-app-service
+            port:
+              number: 80
