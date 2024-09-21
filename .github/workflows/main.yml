@@ -38,15 +38,6 @@ jobs:
 
       - name: Generate Changelog
         run: npx conventional-changelog -p angular -i CHANGELOG.md -s
-
-      - name: Generate Application Insights
-        run: |
-          echo "Generating insights..."
-          # Replace this with a relevant command for your application
-
-      - name: Notify on Build Status
-        run: echo "Build completed with status: ${{ job.status }}"
-
   notify-slack:
     needs: build
     runs-on: ubuntu-latest
@@ -57,4 +48,5 @@ jobs:
           status: ${{ job.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
 
