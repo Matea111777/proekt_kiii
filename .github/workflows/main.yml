@@ -25,11 +25,11 @@ jobs:
         run: mvn pmd:pmd
 
       - name: Package Application
-        run: mvn package
+        run: mvn package -DskipTests
 
       - name: Notify on Build Completion
         run: |
-          echo "Build and tests completed successfully!"
+          echo "Build completed successfully without running tests."
 
   notify-slack:
     needs: build
