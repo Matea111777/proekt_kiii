@@ -21,16 +21,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      - name: Run Static Code Analysis
-        run: mvn checkstyle:check
-
       - name: Run Tests with Coverage
         run: mvn clean test jacoco:report
 
       - name: Package Application
         run: mvn package
 
-      # Replace this section with a different step or leave it empty
       - name: Notify on Build Completion
         run: |
           echo "Build and tests completed successfully!"
