@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nba-app-config
+  namespace: nba-app
 data:
   SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/NBAdb
   SPRING_DATASOURCE_USERNAME: matea
