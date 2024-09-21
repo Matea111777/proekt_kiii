@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nba-boot-app
+  namespace: nba-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nba-boot-app
+  template:
+    metadata:
+      labels:
+        app: nba-boot-app
+    spec:
+      containers:
+      - name: nba-boot-app
+        image: m4t34/nba-players:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: nba-app-config
+              key: SPRING_DATASOURCE_URL
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: nba-app-config
+              key: SPRING_DATASOURCE_USERNAME
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: SPRING_DATASOURCE_PASSWORD
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 40
+          timeoutSeconds: 15
+          periodSeconds: 13
+          failureThreshold: 4
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 40
+          timeoutSeconds: 15
+          periodSeconds: 13
+          failureThreshold: 4
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
