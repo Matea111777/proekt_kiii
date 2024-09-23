@@ -1,4 +1,4 @@
-name: Build, Test, Secure, and Analyze
+name: Build, Test, Secure, Analyze, and Dockerize
 
 on:
   push:
@@ -31,8 +31,25 @@ jobs:
         run: |
           echo "Build completed successfully without running tests."
 
-  notify-slack:
+  dockerize:
     needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nba-players:latest .
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nba-players:latest
+
+  notify-slack:
+    needs: dockerize
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack notification
@@ -41,4 +58,5 @@ jobs:
           status: ${{ job.status }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
 
